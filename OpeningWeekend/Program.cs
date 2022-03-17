@@ -7,8 +7,8 @@ using System.IO;
 
 namespace OpeningWeekend
 {
-
-    class Film  
+ 
+    class Film
     {
         public string EredetiCim;
         public string MagyarCim;
@@ -34,7 +34,7 @@ namespace OpeningWeekend
         static void Main(string[] args)
         {
             Beolvas();
-            //-- 3. feladat
+            //3. feladat
             Console.WriteLine("\n3. feladat:");
             Console.WriteLine($"\tFilmek száma az állományban: {Filmek.Count} db");
             Console.WriteLine("\n4. feladat:");
@@ -60,20 +60,20 @@ namespace OpeningWeekend
             Console.WriteLine("\n7. feladat:");
             Feladat07();
 
-            Console.WriteLine("\n6. feladat:");
+            Console.WriteLine("\n8. feladat:");
             Console.WriteLine($"\tA leghosszabb időszak két InterCom-os bemutató között: {Feladat08()} nap");
             Console.WriteLine("\nProgram vége");
             Console.ReadKey();
         }
-   
-        // 2. 
+        
+        // 2.
         static void Beolvas()
         {
             string fajl = @"..\..\nyitohetvege.txt";
             StreamReader sr = null;
             try
             {
-                using (sr=new StreamReader(fajl))
+                using (sr = new StreamReader(fajl))
                 {
                     sr.ReadLine();
                     while (!sr.EndOfStream)
@@ -98,7 +98,7 @@ namespace OpeningWeekend
             }
             finally
             {
-                if (sr!=null)
+                if (sr != null)
                 {
                     sr.Close();
                     sr.Dispose();
@@ -117,17 +117,18 @@ namespace OpeningWeekend
             double max = Filmek.Max(x => x.Latogato);
             return Filmek.Find(y => y.Latogato == max);
         }
-        
+     
+        // 6. 
         static bool Feladat06()
         {
             bool van = false;
-            foreach (Film item in Filmek.FindAll(x => x.EredetiCim.ToUpper().StartsWith("W")&&x.MagyarCim.ToUpper().StartsWith("W")))
+            foreach (Film item in Filmek.FindAll(x => x.EredetiCim.ToUpper().StartsWith("W") && x.MagyarCim.ToUpper().StartsWith("W")))
             {
-                string[] words = (String.Join(" ",item.EredetiCim,item.MagyarCim)).ToUpper().Split();
+                string[] words = (String.Join(" ", item.EredetiCim, item.MagyarCim)).ToUpper().Split();
                 van = true;
                 foreach (string szo in words)
                 {
-                    if (szo.Trim().Length>0)
+                    if (szo.Trim().Length > 0)
                     {
                         if (szo[0] != 'W')
                         {
@@ -145,5 +146,36 @@ namespace OpeningWeekend
             }
             return van;
         }
+
+        
+        // 7.
+        static void Feladat07()
+        {
+            Console.WriteLine("\tA kért adatok kiirása fájlba...");
+            StreamWriter sw = null;
+            try
+            {
+                using (sw = new StreamWriter("stat.csv"))
+                {
+                    foreach (var item in Filmek.GroupBy(x => x.Forgalmazo).Select(y => new { forgalmazo = y.Key, db = y.Count() }))
+                    {
+                        if (item.db > 0)
+                        {
+                            sw.WriteLine(item.forgalmazo + ";" + item.db);
+                        }
+                    }
+                }
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
+            Console.WriteLine("\tKiirás vége!");
+        }
+
+        
+       
+        
     }
 }
