@@ -117,5 +117,33 @@ namespace OpeningWeekend
             double max = Filmek.Max(x => x.Latogato);
             return Filmek.Find(y => y.Latogato == max);
         }
+        
+        static bool Feladat06()
+        {
+            bool van = false;
+            foreach (Film item in Filmek.FindAll(x => x.EredetiCim.ToUpper().StartsWith("W")&&x.MagyarCim.ToUpper().StartsWith("W")))
+            {
+                string[] words = (String.Join(" ",item.EredetiCim,item.MagyarCim)).ToUpper().Split();
+                van = true;
+                foreach (string szo in words)
+                {
+                    if (szo.Trim().Length>0)
+                    {
+                        if (szo[0] != 'W')
+                        {
+                            van = false;
+                            break;
+                        }
+                    }
+                }
+                if (van)
+                {
+                    Console.WriteLine($"\tEredeti cím: {item.EredetiCim}");
+                    Console.WriteLine($"\tMagyar cím: {item.MagyarCim}\n");
+                    return van;
+                }
+            }
+            return van;
+        }
     }
 }
