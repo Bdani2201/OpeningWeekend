@@ -8,7 +8,7 @@ using System.IO;
 namespace OpeningWeekend
 {
 
-    class Film
+    class Film  
     {
         public string EredetiCim;
         public string MagyarCim;
@@ -34,7 +34,7 @@ namespace OpeningWeekend
         static void Main(string[] args)
         {
             Beolvas();
-            // 3. feladat
+            //-- 3. feladat
             Console.WriteLine("\n3. feladat:");
             Console.WriteLine($"\tFilmek száma az állományban: {Filmek.Count} db");
             Console.WriteLine("\n4. feladat:");
@@ -65,16 +65,15 @@ namespace OpeningWeekend
             Console.WriteLine("\nProgram vége");
             Console.ReadKey();
         }
-
-        /// 2. 
-
+   
+        // 2. 
         static void Beolvas()
         {
             string fajl = @"..\..\nyitohetvege.txt";
             StreamReader sr = null;
             try
             {
-                using (sr = new StreamReader(fajl))
+                using (sr=new StreamReader(fajl))
                 {
                     sr.ReadLine();
                     while (!sr.EndOfStream)
@@ -99,14 +98,24 @@ namespace OpeningWeekend
             }
             finally
             {
-                if (sr != null)
+                if (sr!=null)
                 {
                     sr.Close();
                     sr.Dispose();
                 }
             }
         }
+       
+       // 4. 
+        static double Feladat04()
+        {
+            return Filmek.FindAll(x => x.Forgalmazo.Equals("UIP")).Sum(y => y.Bevetel);
+        }
 
-        
+        static Film Feladat05()
+        {
+            double max = Filmek.Max(x => x.Latogato);
+            return Filmek.Find(y => y.Latogato == max);
         }
     }
+}
