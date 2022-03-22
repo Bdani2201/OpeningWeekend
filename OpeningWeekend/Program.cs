@@ -174,7 +174,20 @@ namespace OpeningWeekend
             Console.WriteLine("\tKiirás vége!");
         }
 
-        
+        //8. 
+        static double Feladat08()
+        {
+            double napok = 0;
+            List<Film> InterCom = Filmek.FindAll(x => x.Forgalmazo.Equals("InterCom"));
+            for (int i = 1; i < InterCom.Count; i++)
+            {
+                if ((InterCom[i].Bemutato - InterCom[i - 1].Bemutato).TotalDays > napok)
+                {
+                    napok = (InterCom[i].Bemutato - InterCom[i - 1].Bemutato).TotalDays;
+                }
+            }
+            return napok;
+        }
        
         
     }
